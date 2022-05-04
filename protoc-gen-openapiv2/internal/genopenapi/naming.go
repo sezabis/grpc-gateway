@@ -17,6 +17,8 @@ func LookupNamingStrategy(strategyName string) func([]string) map[string]string 
 		return resolveNamesLegacy
 	case "simple":
 		return resolveNamesSimple
+	case "full":
+		return resolveNamesNoSeparator
 	}
 	return nil
 }
@@ -28,6 +30,16 @@ func resolveNamesFQN(messages []string) map[string]string {
 	for _, p := range messages {
 		// strip leading dot from proto fqn
 		uniqueNames[p] = p[1:]
+	}
+	return uniqueNames
+}
+
+func resolveNamesNoSeparator(messages []string) map[string]string {
+	uniqueNames := make(map[string]string, len(messages))
+
+	for _, p := range messages {
+		d := strings.Split(p, ".")
+		uniqueNames[p] = strings.Join(d, "")
 	}
 	return uniqueNames
 }

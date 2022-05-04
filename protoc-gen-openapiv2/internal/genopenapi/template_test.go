@@ -3369,6 +3369,16 @@ func TestResolveFullyQualifiedNameToOpenAPIName(t *testing.T) {
 			},
 			"fqn",
 		},
+		{
+			".a.b.C",
+			"abC",
+			[]string{
+				".C",
+				".a.C",
+				".a.b.C",
+			},
+			"full",
+		},
 	}
 
 	for _, data := range tests {
